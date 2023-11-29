@@ -95,8 +95,6 @@ RUN if [[ "${IMAGE_FLAVOR}" =~ "nvidia" ]]; then \
         tuned-utils-systemtap \
         tuned-gtk \
         hl2linux-selinux \
-        ladspa-caps-plugins \
-        ladspa-noise-suppression-for-voice \
         python3-icoextract \
         tailscale \
         btop \
