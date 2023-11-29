@@ -99,8 +99,11 @@ RUN rpm-ostree override remove \
         ublue-os-update-services \
         firefox \
         firefox-langpacks \
-        htop \
-        power-profiles-daemon
+        htop && \
+    if ! [[ "${IMAGE_FLAVOR}" =~ "framework" ]]; then \
+        rpm-ostree override remove \
+            power-profiles-daemon \
+    ; fi
 
 # Install new packages
 RUN if [[ "${IMAGE_FLAVOR}" =~ "nvidia" ]]; then \
