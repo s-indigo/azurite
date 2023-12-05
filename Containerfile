@@ -235,7 +235,7 @@ RUN rpm-ostree override replace \
     sed -i 's@"dxvk.conf"@"/usr/share/latencyflex/dxvk.conf"@g' /usr/bin/latencyflex && \
     chmod +x /usr/bin/latencyflex
 
-# Configure KDE & GNOME
+# Configure KDE, GNOME, & Budgie
 RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
     rpm-ostree override remove \
         plasma-welcome \
@@ -252,7 +252,7 @@ RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
     kpackagetool5 --type=Plasma/Wallpaper --global --install /tmp/wallpaper-engine-kde-plugin/plugin && \
     rm -rf /tmp/kwin-system76-scheduler-integration && \
     rm -rf /tmp/wallpaper-engine-kde-plugin \
-; else \
+; elif grep -q "silverblue" <<< "${BASE_IMAGE_NAME}"; then \
     rpm-ostree override replace \
     --experimental \
     --from repo=copr:copr.fedorainfracloud.org:kylegospo:gnome-vrr \
@@ -283,6 +283,9 @@ RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         gnome-extensions-app \
         gnome-initial-setup && \
     systemctl enable dconf-update.service \
+; elif grep -q "onyx" <<< "${BASE_IMAGE_NAME}"; then \
+    rpm-ostree install \
+        steamdeck-backgrounds \
 ; fi
 
 # Install gamescope-limiter patched Mesa
