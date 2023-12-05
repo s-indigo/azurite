@@ -418,7 +418,7 @@ RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         steamdeck-kde-presets-desktop && \
     rpm-ostree install \
         steamdeck-kde-presets \
-; else \
+; elif grep -q "silverblue" <<< "${BASE_IMAGE_NAME}"; then \
     rpm-ostree install \
         steamdeck-gnome-presets \
         gnome-shell-extension-caribou-blocker \
@@ -427,6 +427,9 @@ RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
     sed -i '/show-gamemode/{n;s/false/true/}' /usr/share/gnome-shell/extensions/logomenu@aryan_k/schemas/org.gnome.shell.extensions.logo-menu.gschema.xml && \
     rm -f /usr/share/gnome-shell/extensions/logomenu@aryan_k/schemas/gschemas.compiled && \
     glib-compile-schemas /usr/share/gnome-shell/extensions/logomenu@aryan_k/schemas/ \
+; elif grep -q "onyx" <<< "${BASE_IMAGE_NAME}"; then \
+    rpm-ostree install \
+        sddm \
 ; fi
 
 # Install new packages
@@ -507,7 +510,7 @@ RUN wget https://steamdeck-packages.steamos.cloud/archlinux-mirror/jupiter-main/
     if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         rpm-ostree override remove \
             gamemode \
-    ; else \
+    ; elif grep -q "silverblue" <<< "${BASE_IMAGE_NAME}"; then \
         rpm-ostree override remove \
             gamemode \
             gnome-shell-extension-gamemode \
@@ -538,6 +541,9 @@ RUN /tmp/image-info.sh && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_ycollet-audinux.repo && \
     if grep -q "silverblue" <<< "${BASE_IMAGE_NAME}"; then \
         systemctl disable gdm.service && \
+        systemctl enable sddm.service \
+    ; elif grep -q "onyx" <<< "${BASE_IMAGE_NAME}"; then \
+        systemctl disable lightdm.service && \
         systemctl enable sddm.service \
     ; fi && \
     systemctl enable bazzite-autologin.service && \
