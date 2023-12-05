@@ -46,7 +46,7 @@ jobs:
       matrix:
         base_image_flavor: [main, asus, framework, surface]
         base_name: [bazzite, bazzite-deck, bazzite-nvidia]
-        base_image_name: [kinoite, silverblue]
+        base_image_name: [kinoite, silverblue, onyx]
         major_version: [39]
         include:
           - major_version: 39
@@ -100,6 +100,8 @@ jobs:
           DESKTOP=""
           if [[ "${{ matrix.base_image_name }}" == "silverblue" ]]; then
               DESKTOP="-gnome"
+          elif [[ "${{ matrix.base_image_name }}" == "onyx" ]]; then
+              DESKTOP="-budgie"
           fi
 
           if [[ "${{ matrix.base_name }}" == "bazzite-deck" ]]; then
