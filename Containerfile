@@ -370,10 +370,12 @@ RUN /tmp/image-info.sh && \
     if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         sed -i '/^PRETTY_NAME/s/Kinoite/Bazzite/' /usr/lib/os-release && \
         systemctl --global enable com.system76.Scheduler.dbusproxy.service \
-    ; else \
+    ; elif grep -q "silverblue" <<< "${BASE_IMAGE_NAME}"; then \
         rm /usr/share/applications/yad-icon-browser.desktop && \
         rm /usr/share/applications/com.github.rafostar.Clapper.desktop && \
         sed -i '/^PRETTY_NAME/s/Silverblue/Bazzite GNOME/' /usr/lib/os-release \
+    ; elif grep -q "onyx" <<< "${BASE_IMAGE_NAME}"; then \
+        sed -i '/^PRETTY_NAME/s/Onyx/Bazzite Budgie/' /usr/lib/os-release \
     ; fi && \
     systemctl disable waydroid-container.service && \
     sed -i 's@Exec=waydroid first-launch@Exec=/usr/bin/waydroid-launcher first-launch\nX-Steam-Library-Capsule=/usr/share/applications/Waydroid/capsule.png\nX-Steam-Library-Hero=/usr/share/applications/Waydroid/hero.png\nX-Steam-Library-Logo=/usr/share/applications/Waydroid/logo.png\nX-Steam-Library-StoreCapsule=/usr/share/applications/Waydroid/store-logo.png\nX-Steam-Controller-Template=Desktop@g' /usr/share/applications/Waydroid.desktop && \
