@@ -95,6 +95,17 @@ RUN rpm-ostree override replace \
     --experimental \
     --from repo=updates \
         gnutls \
+        || true && \
+    rpm-ostree override replace \
+    --experimental \
+    --from repo=updates \
+        glib2 \
+        || true && \
+    rpm-ostree override replace \
+    --experimental \
+    --from repo=updates \
+        atk \
+        at-spi2-atk \
         || true
 
 # Install Valve's patched Mesa, Pipewire and Bluez
@@ -123,7 +134,8 @@ RUN rpm-ostree override remove \
         bluez \
         bluez-cups \
         bluez-libs \
-        bluez-obexd
+        bluez-obexd \
+        xorg-x11-server-Xwayland
 
 # Remove unneeded packages
 RUN rpm-ostree override remove \
@@ -190,6 +202,8 @@ RUN rpm-ostree install \
 
 # Install Steam & Lutris, plus supporting packages
 RUN rpm-ostree install \
+        at-spi2-core.i686 \
+        atk.i686 \
         vulkan-loader.i686 \
         mesa-vulkan-drivers.i686 \
         alsa-lib.i686 \
@@ -292,6 +306,7 @@ RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         gnome-shell-extension-user-theme \
         gnome-shell-extension-gsconnect \
         nautilus-gsconnect \
+        nautilus-open-any-terminal \
         gnome-shell-extension-system76-scheduler \
         gnome-shell-extension-compiz-windows-effect \
         gnome-shell-extension-just-perfection \
@@ -306,6 +321,7 @@ RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         gnome-classic-session \
         gnome-tour \
         gnome-extensions-app \
+        gnome-terminal-nautilus \
         gnome-initial-setup && \
     systemctl enable dconf-update.service \
 ; elif grep -q "onyx" <<< "${BASE_IMAGE_NAME}"; then \
@@ -317,6 +333,7 @@ RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
 RUN rpm-ostree install \
         gamescope.x86_64 \
         gamescope-libs.i686 \
+        gamescope-shaders \
         rocm-hip \
         rocm-opencl \
         rocm-clinfo \
