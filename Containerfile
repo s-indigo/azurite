@@ -31,6 +31,7 @@ RUN wget https://copr.fedorainfracloud.org/coprs/kylegospo/bazzite/repo/fedora-$
     wget https://copr.fedorainfracloud.org/coprs/kylegospo/vk_hdr_layer/repo/fedora-$(rpm -E %fedora)/kylegospo-vk_hdr_layer-fedora-$(rpm -E %fedora).repo?arch=x86_64 -O /etc/yum.repos.d/_copr_kylegospo-vk_hdr_layer.repo && \
     wget https://copr.fedorainfracloud.org/coprs/ycollet/audinux/repo/fedora-$(rpm -E %fedora)/ycollet-audinux-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_ycollet-audinux.repo && \
     wget https://copr.fedorainfracloud.org/coprs/kylegospo/rom-properties/repo/fedora-$(rpm -E %fedora)/kylegospo-rom-properties-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_kylegospo-rom-properties.repo && \
+    wget https://copr.fedorainfracloud.org/coprs/kylegospo/prompt/repo/fedora-$(rpm -E %fedora)/kylegospo-prompt-fedora-$(rpm -E %fedora).repo?arch=x86_64 -O /etc/yum.repos.d/_copr_kylegospo-prompt.repo && \
     wget https://pkgs.tailscale.com/stable/fedora/tailscale.repo -O /etc/yum.repos.d/tailscale.repo && \
     sed -i 's@gpgcheck=1@gpgcheck=0@g' /etc/yum.repos.d/tailscale.repo
 
@@ -284,7 +285,8 @@ RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         wallpaper-engine-kde-plugin \
         kdeconnectd \
         kdeplasma-addons \
-        rom-properties-kf5 && \
+        rom-properties-kf5 \
+        prompt && \
     git clone https://github.com/maxiberta/kwin-system76-scheduler-integration.git --depth 1 /tmp/kwin-system76-scheduler-integration && \
     git clone https://github.com/catsout/wallpaper-engine-kde-plugin.git --depth 1 /tmp/wallpaper-engine-kde-plugin && \
     kpackagetool5 --type=KWin/Script --global --install /tmp/kwin-system76-scheduler-integration && \
@@ -299,14 +301,20 @@ RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         mutter-common \
         gnome-control-center \
         gnome-control-center-filesystem && \
+    rpm-ostree override replace \
+    --experimental \
+    --from repo=copr:copr.fedorainfracloud.org:kylegospo:prompt \
+        vte291 \
+        vte-profile && \
     rpm-ostree install \
+        prompt \
+        nautilus-open-any-terminal \
+        nautilus-gsconnect \
         gnome-shell-extension-tailscale-gnome-qs \
         steamdeck-backgrounds \
         gnome-randr-rust \
         gnome-shell-extension-user-theme \
         gnome-shell-extension-gsconnect \
-        nautilus-gsconnect \
-        nautilus-open-any-terminal \
         gnome-shell-extension-system76-scheduler \
         gnome-shell-extension-compiz-windows-effect \
         gnome-shell-extension-just-perfection \
@@ -372,6 +380,7 @@ RUN /tmp/image-info.sh && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-vk_hdr_layer.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_ycollet-audinux.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-rom-properties.repo && \
+    sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-prompt.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/tailscale.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/charm.repo && \
     sed -i 's/#DefaultTimeoutStopSec.*/DefaultTimeoutStopSec=15s/' /etc/systemd/user.conf && \
@@ -518,7 +527,8 @@ RUN rpm-ostree override replace \
     --from repo=copr:copr.fedorainfracloud.org:kylegospo:bazzite \
         wireplumber \
         wireplumber-libs \
-        upower
+        upower \
+        upower-libs
 
 # Install Gamescope Session & Supporting changes
 # Add bootstraplinux_ubuntu12_32.tar.xz used by gamescope-session (Thanks ChimeraOS! - https://chimeraos.org/)
@@ -549,6 +559,8 @@ RUN /tmp/image-info.sh && \
     ln -s /usr/bin/steamos-logger /usr/bin/steamos-info && \
     ln -s /usr/bin/steamos-logger /usr/bin/steamos-notice && \
     ln -s /usr/bin/steamos-logger /usr/bin/steamos-warning && \
+    rm -rf /etc/wireplumber && \
+    ln -s /run/wireplumber /usr/etc/wireplumber && \
     if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         sed -i 's/Exec=.*/Exec=systemctl start return-to-gamemode.service/' /etc/skel.d/Desktop/Return.desktop \
     ; fi && \
@@ -570,6 +582,7 @@ RUN /tmp/image-info.sh && \
         systemctl enable sddm.service \
     ; fi && \
     systemctl enable bazzite-autologin.service && \
+    systemctl enable wireplumber-sysconf.service && \
     systemctl enable btrfs-dedup@run-media-mmcblk0p1.timer && \
     systemctl enable ds-inhibit.service && \
     systemctl enable cec-onboot.service && \
