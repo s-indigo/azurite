@@ -109,14 +109,24 @@ RUN rpm-ostree override replace \
         atk \
         at-spi2-atk \
         || true && \
+    rpm-ostree override replace \
+    --experimental \
+    --from repo=updates \
+        gstreamer1 \
+        gstreamer1-plugins-base \
+        gstreamer1-plugins-bad-free-libs \
+        gstreamer1-plugins-good-qt \
+        gstreamer1-plugins-good \
+        gstreamer1-plugins-bad-free \
+        gstreamer1-plugin-libav \
+        gstreamer1-plugins-ugly-free \
+        || true && \
     rpm-ostree override remove \
         glibc32 \
         || true
 
 # Install Valve's patched Mesa, Pipewire and Bluez
-RUN rpm-ostree override remove \
-        mesa-va-drivers-freeworld && \
-    rpm-ostree override replace \
+RUN rpm-ostree override replace \
     --experimental \
     --from repo=copr:copr.fedorainfracloud.org:kylegospo:bazzite-multilib \
         mesa-filesystem \
@@ -127,7 +137,6 @@ RUN rpm-ostree override remove \
         mesa-libglapi \
         mesa-vulkan-drivers \
         mesa-libOSMesa \
-        mesa-va-drivers \
         pipewire \
         pipewire-alsa \
         pipewire-gstreamer \
@@ -484,6 +493,7 @@ RUN rpm-ostree install \
     galileo-mura \
     powerbuttond \
     HandyGCCS \
+    hhd \
     vpower \
     ds-inhibit \
     steam_notif_daemon \
