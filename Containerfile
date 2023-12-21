@@ -374,8 +374,7 @@ RUN /tmp/image-info.sh && \
     sed -i 's@\[Desktop Entry\]@\[Desktop Entry\]\nNoDisplay=true@g' /usr/share/applications/shredder.desktop && \
     rm /usr/share/vulkan/icd.d/lvp_icd.*.json && \
     mkdir -p "/usr/etc/profile.d/" && \
-    ln -s "/usr/share/ublue-os/firstboot/launcher/login-profile.sh" \
-    "/usr/etc/profile.d/ublue-firstboot.sh" && \
+    ln -s "/usr/share/ublue-os/firstboot/launcher/login-profile.sh" "/usr/etc/profile.d/ublue-firstboot.sh" && \
     mkdir -p "/usr/etc/xdg/autostart" && \
     cp "/usr/share/applications/discover_overlay.desktop" "/usr/etc/xdg/autostart/discover_overlay.desktop" && \
     sed -i 's@Exec=discover-overlay@Exec=/usr/bin/bazzite-discover-overlay@g' /usr/etc/xdg/autostart/discover_overlay.desktop && \
@@ -422,12 +421,12 @@ RUN /tmp/image-info.sh && \
     if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         sed -i '/^PRETTY_NAME/s/Kinoite/Bazzite/' /usr/lib/os-release && \
         systemctl --global enable com.system76.Scheduler.dbusproxy.service \
+    ; elif grep -q "onyx" <<< "${BASE_IMAGE_NAME}"; then \
+        sed -i '/^PRETTY_NAME/s/Onyx/Bazzite Budgie/' /usr/lib/os-release \
     ; else \
         sed -i 's@\[Desktop Entry\]@\[Desktop Entry\]\nNoDisplay=true@g' /usr/share/applications/yad-icon-browser.desktop && \
         sed -i 's@\[Desktop Entry\]@\[Desktop Entry\]\nNoDisplay=true@g' /usr/share/applications/com.github.rafostar.Clapper.desktop && \
         sed -i '/^PRETTY_NAME/s/Silverblue/Bazzite GNOME/' /usr/lib/os-release \
-    ; elif grep -q "onyx" <<< "${BASE_IMAGE_NAME}"; then \
-        sed -i '/^PRETTY_NAME/s/Onyx/Bazzite Budgie/' /usr/lib/os-release \
     ; fi && \
     systemctl disable waydroid-container.service && \
     sed -i 's@Exec=waydroid first-launch@Exec=/usr/bin/waydroid-launcher first-launch\nX-Steam-Library-Capsule=/usr/share/applications/Waydroid/capsule.png\nX-Steam-Library-Hero=/usr/share/applications/Waydroid/hero.png\nX-Steam-Library-Logo=/usr/share/applications/Waydroid/logo.png\nX-Steam-Library-StoreCapsule=/usr/share/applications/Waydroid/store-logo.png\nX-Steam-Controller-Template=Desktop@g' /usr/share/applications/Waydroid.desktop && \
