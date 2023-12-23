@@ -474,10 +474,7 @@ RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         steamdeck-gnome-presets \
         gnome-shell-extension-caribou-blocker \
         sddm && \
-    wget https://raw.githubusercontent.com/doitsujin/dxvk/master/dxvk.conf -O /usr/etc/dxvk-example.conf  && \
-    sed -i '/show-gamemode/{n;s/false/true/}' /usr/share/gnome-shell/extensions/logomenu@aryan_k/schemas/org.gnome.shell.extensions.logo-menu.gschema.xml && \
-    rm -f /usr/share/gnome-shell/extensions/logomenu@aryan_k/schemas/gschemas.compiled && \
-    glib-compile-schemas /usr/share/gnome-shell/extensions/logomenu@aryan_k/schemas/ \
+    wget https://raw.githubusercontent.com/doitsujin/dxvk/master/dxvk.conf -O /usr/etc/dxvk-example.conf \
 ; elif grep -q "onyx" <<< "${BASE_IMAGE_NAME}"; then \
     rpm-ostree install \
         sddm \
@@ -498,7 +495,6 @@ RUN rpm-ostree install \
     steam_notif_daemon \
     ryzenadj \
     sdgyrodsu \
-    sddm-sugar-steamOS \
     ibus-pinyin \
     ibus-table-chinese-cangjie \
     ibus-table-chinese-quick \
