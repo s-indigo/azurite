@@ -22,7 +22,7 @@ init-waydroid:
 # Launch Waydroid configuration helper
 configure-waydroid:
     #!/usr/bin/bash
-    git clone https://github.com/casualsnek/waydroid_script.git --depth 1 /tmp/waydroid_script
+    git clone https://github.com/ublue-os/waydroid_script.git --depth 1 /tmp/waydroid_script
     python -m venv /tmp/waydroid_script/venv
     source /tmp/waydroid_script/venv/bin/activate
     sudo pip install -r /tmp/waydroid_script/requirements.txt
@@ -98,17 +98,6 @@ install-openrazer:
     sudo usermod -a -G plugdev $USER && \
     echo "Please reboot to apply needed changes."
 
-# Install Greenlight xCloud and xHome streaming AppImage
-get-greenlight:
-    #!/usr/bin/bash
-    if grep -q 'it.mijorus.gearlever' <<< $(flatpak list); then
-      wget "https://github.com/unknownskl/greenlight/releases/download/v2.0.0-beta15/Greenlight-2.0.0-beta15.AppImage" -O $HOME/Downloads/Greenlight.AppImage
-      flatpak run it.mijorus.gearlever $HOME/Downloads/Greenlight.AppImage
-    else
-      wget "https://github.com/unknownskl/greenlight/releases/download/v2.0.0-beta15/Greenlight-2.0.0-beta15.AppImage" -O $HOME/Desktop/Greenlight.AppImage
-      chmod +x $HOME/Desktop/Greenlight.AppImage
-    fi
-
 # Install Wootility for configuring Wooting Keyboards
 get-wootility:
     #!/usr/bin/bash
@@ -118,39 +107,6 @@ get-wootility:
     else
       wget "https://api.wooting.io/public/wootility/download?os=linux&branch=lekker" -O $HOME/Desktop/wootility.AppImage
       chmod +x $HOME/Desktop/wootility.AppImage
-    fi
-
-# Install BoilR, a Steam Library and art management tool
-get-boilr:
-    #!/usr/bin/bash
-    curl \
-      $(curl -s https://api.github.com/repos/PhilipK/BoilR/releases/latest | \
-      jq -r ".assets[] | select(.name | test(\"linux_BoilR\")) | .browser_download_url") \
-      --create-dirs -o ~/Applications/BoilR
-    chmod +x ~/Applications/BoilR
-    for px in 64 128 256;\
-    do \
-    curl $(curl -s https://api.github.com/repos/PhilipK/BoilR/contents/resources/$px/io.github.philipk.boilr.png | \
-    jq -r ".download_url") \
-    --create-dirs -o ~/.local/share/icons/hicolor/$px\x$px/apps/io.github.philipk.boilr.png;\
-    done
-    mkdir -p $HOME/.local/share/applications
-    HOME=$HOME
-    echo -e \
-    "[Desktop Entry]\n\
-    Version=1.0\n\
-    Type=Application\n\
-    Name=BoilR\n\
-    Comment=Add non-steam games to your steam library\n\
-    Categories=Utility;Amusement;\n\
-    Keywords=Steam;Heroic;Lutris;Itch;Origin;GOG;UPlay;Icons;Images;Non-Steam;Games;\n\
-    Icon=io.github.philipk.boilr\n\
-    Exec=$HOME/Applications/BoilR\n\
-    Terminal=false\n\
-    StartupNotify=true" \
-    > ~/.local/share/applications/BoilR.desktop
-    if [[ ${BASE_IMAGE_NAME} == 'kinoite' ]]; then
-      cp ~/.local/share/applications/BoilR.desktop ~/Desktop
     fi
 
 # Patch a bug in some 32-bit Source 1.x titles that causes them to crash at startup

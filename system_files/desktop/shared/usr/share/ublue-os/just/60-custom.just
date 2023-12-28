@@ -12,7 +12,7 @@ init-waydroid:
 # Launch Waydroid configuration helper
 configure-waydroid:
     #!/usr/bin/bash
-    git clone https://github.com/casualsnek/waydroid_script.git --depth 1 /tmp/waydroid_script
+    git clone https://github.com/ublue-os/waydroid_script.git --depth 1 /tmp/waydroid_script
     python -m venv /tmp/waydroid_script/venv
     source /tmp/waydroid_script/venv/bin/activate
     sudo pip install -r /tmp/waydroid_script/requirements.txt
@@ -62,17 +62,6 @@ install-openrazer:
     ; fi && \
     sudo usermod -a -G plugdev $USER && \
     echo "Please reboot to apply needed changes."
-
-# Install Greenlight xCloud and xHome streaming AppImage
-get-greenlight:
-    #!/usr/bin/bash
-    if grep -q 'it.mijorus.gearlever' <<< $(flatpak list); then
-      wget https://github.com/unknownskl/greenlight/releases/download/v2.0.0-beta15/Greenlight-2.0.0-beta15.AppImage -O $HOME/Downloads/Greenlight.AppImage
-      flatpak run it.mijorus.gearlever $HOME/Downloads/Greenlight.AppImage
-    else
-      wget https://github.com/unknownskl/greenlight/releases/download/v2.0.0-beta15/Greenlight-2.0.0-beta15.AppImage -O $HOME/Desktop/Greenlight.AppImage
-      chmod +x $HOME/Desktop/Greenlight.AppImage
-    fi
 
 # Install Wootility for configuring Wooting Keyboards
 get-wootility:

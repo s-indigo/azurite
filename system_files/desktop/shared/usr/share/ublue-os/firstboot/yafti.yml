@@ -28,17 +28,11 @@ screens:
           packages:
           - Install Sunshine: ujust install-sunshine
           - Autostart Sunshine: ujust autostart-sunshine
-        Greenlight:
-          description: A utility for xCloud and xHome streaming
-          default: false
-          packages:
-          - Retrieve Greenlight: ujust get-greenlight
         Nix Package Manager:
           description: Nix is a powerful package manager for Linux and other Unix systems that makes package management reliable and reproducible
           default: false
           packages:
           - Install Nix Package Support: sudo -A ujust nix-install
-          - Install Fleek (Requires Nix): ujust fleek-install
         OpenRazer:
           description: Enables additional capabilities for Razer Hardware
           default: false
@@ -119,11 +113,13 @@ screens:
           description: "Rock and Stone!"
           default: false
           packages:
+          - BoilR: io.github.philipk.boilr
           - Bottles: com.usebottles.bottles
           - Chiaki (PlayStation Remote Play): re.chiaki.Chiaki
           - Discord: com.discordapp.Discord
           - DOSBox Staging: io.github.dosbox-staging
           - GeForce NOW Electron: io.github.hmlendea.geforcenow-electron
+          - Greenlight: io.github.unknownskl.greenlight
           - Heroic Games Launcher (GOG &amp; Epic): com.heroicgameslauncher.hgl
           - itch: io.itch.itch
           - ludusavi (Game Save Backup): com.github.mtkennerly.ludusavi
