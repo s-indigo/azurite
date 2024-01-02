@@ -34,6 +34,7 @@ RUN wget https://copr.fedorainfracloud.org/coprs/kylegospo/bazzite/repo/fedora-$
     wget https://copr.fedorainfracloud.org/coprs/kylegospo/prompt/repo/fedora-$(rpm -E %fedora)/kylegospo-prompt-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_kylegospo-prompt.repo && \
     wget https://copr.fedorainfracloud.org/coprs/kylegospo/joycond/repo/fedora-$(rpm -E %fedora)/kylegospo-joycond-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_kylegospo-joycond.repo && \
     wget https://copr.fedorainfracloud.org/coprs/kylegospo/VTFLib/repo/fedora-$(rpm -E %fedora)/kylegospo-VTFLib-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_kylegospo-VTFLib.repo && \
+    wget https://copr.fedorainfracloud.org/coprs/kylegospo/webapp-manager/repo/fedora-$(rpm -E %fedora)/kylegospo-webapp-manager-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_kylegospo-webapp-manager.repo && \
     wget https://pkgs.tailscale.com/stable/fedora/tailscale.repo -O /etc/yum.repos.d/tailscale.repo && \
     sed -i 's@gpgcheck=1@gpgcheck=0@g' /etc/yum.repos.d/tailscale.repo
 
@@ -197,14 +198,17 @@ RUN rpm-ostree install \
         ladspa-noise-suppression-for-voice \
         python3-icoextract \
         tailscale \
+        webapp-manager \
         btop \
         fish \
+        lshw \
         xdotool \
         wmctrl \
         libcec \
         yad \
         f3 \
         pulseaudio-utils \
+        playerctl \
         unrar \
         lzip \
         libxcrypt-compat \
@@ -220,9 +224,8 @@ RUN rpm-ostree install \
         gum \
         redhat-lsb-core && \
     ln -s /usr/share/fonts/google-noto-sans-cjk-fonts /usr/share/fonts/noto-cjk && \
-    wget https://raw.githubusercontent.com/scaronni/steam-proton-mf-wmv/master/installcab.py -O /usr/bin/installcab && \
-    wget https://github.com/scaronni/steam-proton-mf-wmv/blob/master/install-mf-wmv.sh -O /usr/bin/install-mf-wmv && \
-    sed -i 's@python3 installcab.py@/usr/bin/installcab@g' /usr/bin/install-mf-wmv && \
+    wget https://raw.githubusercontent.com/KyleGospo/steam-proton-mf-wmv/master/installcab.py -O /usr/bin/installcab && \
+    wget https://github.com/KyleGospo/steam-proton-mf-wmv/blob/master/install-mf-wmv.sh -O /usr/bin/install-mf-wmv && \
     wget https://raw.githubusercontent.com/jlu5/icoextract/master/exe-thumbnailer.thumbnailer -O /usr/share/thumbnailers/exe-thumbnailer.thumbnailer && \
     wget https://gitlab.com/popsulfr/steamos-btrfs/-/raw/main/files/usr/lib/systemd/system/btrfs-dedup@.service -O /usr/lib/systemd/system/btrfs-dedup@.service && \
     wget https://gitlab.com/popsulfr/steamos-btrfs/-/raw/main/files/usr/lib/systemd/system/btrfs-dedup@.timer -O /usr/lib/systemd/system/btrfs-dedup@.timer
@@ -297,7 +300,7 @@ RUN rpm-ostree install \
     rm -f /tmp/latencyflex.tar.xz && \
     cp -r /tmp/latencyflex/wine/usr/lib/wine/* /usr/lib64/wine/ && \
     rm -rf /tmp/latencyflex && \
-    wget https://raw.githubusercontent.com/Shringe/LatencyFleX-Installer/main/install.sh -O /usr/bin/latencyflex && \
+    wget https://raw.githubusercontent.com/KyleGospo/LatencyFleX-Installer/main/install.sh -O /usr/bin/latencyflex && \
     sed -i 's@/usr/lib/wine/@/usr/lib64/wine/@g' /usr/bin/latencyflex && \
     sed -i 's@"dxvk.conf"@"/usr/share/latencyflex/dxvk.conf"@g' /usr/bin/latencyflex && \
     chmod +x /usr/bin/latencyflex
@@ -414,6 +417,7 @@ RUN /tmp/image-info.sh && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-prompt.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-joycond.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-VTFLib.repo && \
+    sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_kylegospo-webapp-manager.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/tailscale.repo && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/charm.repo && \
     sed -i 's/#DefaultTimeoutStopSec.*/DefaultTimeoutStopSec=15s/' /etc/systemd/user.conf && \
@@ -429,6 +433,8 @@ RUN /tmp/image-info.sh && \
     systemctl enable bazzite-flatpak-manager.service && \
     systemctl disable rpm-ostreed-automatic.timer && \
     systemctl enable ublue-update.timer && \
+    systemctl enable gamescope-workaround.service && \
+    systemctl enable waydroid-workaround.service && \
     systemctl enable bazzite-hardware-setup.service && \
     systemctl enable tailscaled.service && \
     systemctl enable dev-hugepages1G.mount && \
@@ -447,7 +453,7 @@ RUN /tmp/image-info.sh && \
     systemctl disable waydroid-container.service && \
     sed -i 's@Exec=waydroid first-launch@Exec=/usr/bin/waydroid-launcher first-launch\nX-Steam-Library-Capsule=/usr/share/applications/Waydroid/capsule.png\nX-Steam-Library-Hero=/usr/share/applications/Waydroid/hero.png\nX-Steam-Library-Logo=/usr/share/applications/Waydroid/logo.png\nX-Steam-Library-StoreCapsule=/usr/share/applications/Waydroid/store-logo.png\nX-Steam-Controller-Template=Desktop@g' /usr/share/applications/Waydroid.desktop && \
     rm /usr/share/wayland-sessions/weston.desktop && \
-    wget https://raw.githubusercontent.com/Quackdoc/waydroid-scripts/main/waydroid-choose-gpu.sh -O /usr/bin/waydroid-choose-gpu && \
+    wget https://raw.githubusercontent.com/KyleGospo/waydroid-scripts/main/waydroid-choose-gpu.sh -O /usr/bin/waydroid-choose-gpu && \
     chmod +x /usr/bin/waydroid-choose-gpu && \
     mkdir -p /usr/etc/default && \
     rm -rf \
@@ -592,6 +598,7 @@ RUN /tmp/image-info.sh && \
     if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         sed -i 's/Exec=.*/Exec=systemctl start return-to-gamemode.service/' /etc/skel.d/Desktop/Return.desktop \
     ; fi && \
+    sed -i 's@\[Desktop Entry\]@\[Desktop Entry\]\nNoDisplay=true@g' /usr/share/applications/input-remapper-gtk.desktop && \
     cp "/usr/share/ublue-os/firstboot/yafti.yml" "/usr/etc/yafti.yml" && \
     sed -i 's/#HandlePowerKey=poweroff/HandlePowerKey=suspend/g' /etc/systemd/logind.conf && \
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/_copr_ublue-os-akmods.repo && \
@@ -650,6 +657,7 @@ ARG NVIDIA_MAJOR_VERSION="545"
 
 # Fetch NVIDIA driver
 COPY --from=ghcr.io/ublue-os/akmods-nvidia:${AKMODS_FLAVOR}-${FEDORA_MAJOR_VERSION}-${NVIDIA_MAJOR_VERSION} /rpms /tmp/akmods-rpms
+COPY system_files/nvidia/shared system_files/nvidia/${BASE_IMAGE_NAME} /
 
 # Remove everything that doesn't work well with NVIDIA
 RUN rm -f /usr/bin/waydroid-choose-gpu && \
@@ -663,8 +671,7 @@ RUN rm -f /usr/bin/waydroid-choose-gpu && \
     if [[ "${BASE_IMAGE_NAME}" == "kinoite" ]]; then \
         rpm-ostree override remove \
             colord-kde \
-    ; fi && \
-    rm -f /usr/etc/modprobe.d/amdgpu.conf
+    ; fi
 
 # Install NVIDIA driver
 RUN wget https://raw.githubusercontent.com/ublue-os/nvidia/main/install.sh -O /tmp/nvidia-install.sh && \
