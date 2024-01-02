@@ -1,3 +1,3 @@
 // Bazzite Global
-pref("gfx.webrender.all", 1);
-pref("media.ffmpeg.vaapi.enabled", 1);
+pref("gfx.webrender.all", true);
+pref("media.ffmpeg.vaapi.enabled", true);

@@ -1,2 +1,2 @@
 // Bazzite GNOME
-pref("widget.gtk.rounded-bottom-corners.enabled", 1);
+pref("widget.gtk.rounded-bottom-corners.enabled", true);

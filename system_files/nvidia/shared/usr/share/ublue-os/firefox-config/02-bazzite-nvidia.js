@@ -1,2 +1,2 @@
 // Bazzite NVIDIA
-pref("widget.dmabuf.force-enabled", 1);
+pref("widget.dmabuf.force-enabled", true);
