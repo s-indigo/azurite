@@ -232,7 +232,7 @@ jobs:
       - name: Scan image
         uses: anchore/scan-action@v3
         with:
-          image: ${{ steps.build_image.outputs.image }}
+          image: "localhost/${{ steps.build_image.outputs.image }}"
           severity-cutoff: 'critical'
 
       # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
