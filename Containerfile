@@ -228,6 +228,7 @@ RUN rpm-ostree install \
         fira-code-fonts \
         glow \
         gum \
+        setools \
         redhat-lsb-core && \
     ln -s /usr/share/fonts/google-noto-sans-cjk-fonts /usr/share/fonts/noto-cjk && \
     wget https://raw.githubusercontent.com/KyleGospo/steam-proton-mf-wmv/master/installcab.py -O /usr/bin/installcab && \
@@ -347,7 +348,6 @@ RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         prompt \
         nautilus-open-any-terminal \
         nautilus-gsconnect \
-        gnome-shell-extension-tailscale-gnome-qs \
         steamdeck-backgrounds \
         gnome-randr-rust \
         gnome-shell-extension-user-theme \
@@ -359,6 +359,8 @@ RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
         gnome-shell-extension-hanabi \
         gnome-shell-extension-gamerzilla \
         gnome-shell-extension-bazzite-menu \
+        gnome-shell-extension-hotedge \
+        gnome-shell-extension-tailscale-gnome-qs \
         rom-properties-gtk3 \
         pixbufloader-vtf \
         openssh-askpass && \
