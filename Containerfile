@@ -691,6 +691,23 @@ RUN wget https://raw.githubusercontent.com/ublue-os/nvidia/main/install.sh -O /t
     chmod +x /tmp/nvidia-install.sh && /tmp/nvidia-install.sh && \
     chmod +x /tmp/nvidia-post-install.sh && /tmp/nvidia-post-install.sh
 
+RUN rpm-ostree install \
+        alacritty \
+        cockpit-bridge \
+        cockpit-machines \
+        cockpit-networkmanager \
+        cockpit-ostree \
+        cockpit-pcp \
+        cockpit-podman \
+        cockpit-selinux \
+        cockpit-storaged \
+        cockpit-system \
+        edk2-ovmf \
+        openrazer-meta \
+        qemu \
+        razergenie \
+        virt-manager
+
 # Cleanup & Finalize
 RUN rm -rf \
         /tmp/* \
