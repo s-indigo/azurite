@@ -8,8 +8,10 @@ URL:            https://github.com/ublue-os/bazzite
 Source0:        https://gitlab.com/evlaV/steamdeck-kde-presets/-/archive/master/steamdeck-kde-presets-master.tar.gz
 Source1:        kdeglobals-desktop
 Source2:        steamdeck-le.svg
+Source3:        bazzite_logo.svgz
 Patch0:         multiuser.patch
 Patch1:         lockscreen.patch
+Patch2:         bazzite_logo.patch
 
 BuildArch:      noarch
 
@@ -35,9 +37,8 @@ mkdir -p %{buildroot}%{_datadir}/
 mkdir -p %{buildroot}%{_sysconfdir}/
 cp -rv usr/share/* %{buildroot}%{_datadir}
 cp -rv etc/* %{buildroot}%{_sysconfdir}
-mv %{buildroot}%{_sysconfdir}/skel %{buildroot}%{_sysconfdir}/skel.d
 mv %{buildroot}%{_datadir}/icons/hicolor/scalable/places/distributor-logo-steamdeck.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/places/steamdeck.svg
-cp %{SOURCE1} %{buildroot}%{_datadir}/icons/hicolor/scalable/places/steamdeck-le.svg
+cp %{SOURCE2} %{buildroot}%{_datadir}/icons/hicolor/scalable/places/steamdeck-le.svg
 # Remove unneeded files
 rm -rf %{buildroot}%{_datadir}/applications/steam/steamos-nested-desktop
 rm %{buildroot}%{_datadir}/applications/org.mozilla.firefox.desktop
@@ -46,7 +47,7 @@ rm %{buildroot}%{_datadir}/X11/xorg.conf.d/99-pointer.conf
 rm %{buildroot}%{_datadir}/icons/hicolor/scalable/places/distributor-logo.svg
 rm %{buildroot}%{_sysconfdir}/profile.d/kde.sh
 rm %{buildroot}%{_sysconfdir}/sddm.conf.d/steamdeck.conf
-rm %{buildroot}%{_sysconfdir}/skel.d/Desktop/Return.desktop
+rm %{buildroot}%{_sysconfdir}/skel/Desktop/Return.desktop
 rm %{buildroot}%{_sysconfdir}/X11/Xsession.d/50rotate-screen
 rm %{buildroot}%{_sysconfdir}/xdg/autostart/ibus.desktop
 rm %{buildroot}%{_sysconfdir}/xdg/autostart/jupiter-plasma-bootstrap.desktop
@@ -62,6 +63,10 @@ rm %{buildroot}%{_sysconfdir}/xdg/baloofilerc
 rm %{buildroot}%{_sysconfdir}/xdg/kdeglobals
 rm %{buildroot}%{_sysconfdir}/xdg/kcm-about-distrorc
 cp %{SOURCE1} %{buildroot}%{_sysconfdir}/xdg/kdeglobals
+rm %{buildroot}%{_datadir}/plasma/look-and-feel/com.valve.vapor.desktop/contents/splash/images/deck_logo.svgz
+rm %{buildroot}%{_datadir}/plasma/look-and-feel/com.valve.vgui.desktop/contents/splash/images/deck_logo.svgz
+cp %{SOURCE3} %{buildroot}%{_datadir}/plasma/look-and-feel/com.valve.vapor.desktop/contents/splash/images/bazzite_logo.svgz
+cp %{SOURCE3} %{buildroot}%{_datadir}/plasma/look-and-feel/com.valve.vgui.desktop/contents/splash/images/bazzite_logo.svgz
 
 # Do post-installation
 %post

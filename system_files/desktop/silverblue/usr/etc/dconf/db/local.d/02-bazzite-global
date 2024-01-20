@@ -7,6 +7,9 @@ switch-windows-backward=['<Shift><Alt>Tab']
 [org/gnome/desktop/peripherals/keyboard]
 numlock-state=true
 
+[org/gnome/desktop/peripherals/keyboard]
+numlock-state=true
+
 [org/gnome/desktop/peripherals/touchpad]
 tap-to-click=true
 
@@ -69,3 +72,4 @@ show-lockscreen=false
 show-power-option=false
 show-gamemode=false
 hide-forcequit=true
+show-pods=true

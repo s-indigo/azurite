@@ -22,11 +22,6 @@ screens:
           default: true
           packages:
           - Set input group: sudo -A ujust add-user-to-input-group
-        Add Nested Desktop to Steam:
-          description: Adds a nested desktop environment to Steam gamemode.
-          default: true
-          packages:
-          - Add to steam: ujust add-nested-desktop-to-steam
         BIOS &amp; Firmware Updates:
           description: Enables BIOS &amp; Firmware updates for Steam Deck hardware
           default: true
@@ -55,6 +50,16 @@ screens:
           default: true
           packages:
           - Hide GRUB: sudo -A ujust hide-grub
+        Install Game Mode Startup Video:
+          description: Adds a Bazzite themed startup video for Steam's game mode.
+          default: true
+          packages:
+          - Install Video: ujust install-gamemode-video
+        Fix Steam Download Speed:
+          description: Adds a config file that fixes download speed under Steam for Linux.
+          default: true
+          packages:
+          - Fix Download Speed: ujust fix-steam-download-speed
         Legacy Memory Configuration (Not recommended):
           description: Disable ZRAM and enable adjustable swap file, defaults to 1GB.
           default: false
@@ -209,6 +214,7 @@ screens:
           - LibreOffice: org.libreoffice.LibreOffice
           - Obsidian: md.obsidian.Obsidian
           - OnlyOffice: org.onlyoffice.desktopeditors
+          - Planify: io.github.alainm23.planify
           - Slack: com.slack.Slack
           - Standard Notes: org.standardnotes.standardnotes
           - Tenacity: org.tenacityaudio.Tenacity

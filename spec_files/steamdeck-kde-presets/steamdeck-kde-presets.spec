@@ -7,9 +7,12 @@ URL:            https://github.com/ublue-os/bazzite
 
 Source0:        https://gitlab.com/evlaV/%{name}/-/archive/master/%{name}-master.tar.gz
 Source1:        steamdeck-le.svg
+Source2:        bazzite_logo.svgz
 BuildArch:      noarch
 Patch0:         fedora.patch
 Patch1:         nested-desktop-resolution.patch
+Patch2:         kdeglobals.patch
+Patch3:         bazzite_logo.patch
 
 Requires:       kde-filesystem
 
@@ -37,7 +40,6 @@ cp -rv usr/share/* %{buildroot}%{_datadir}
 cp -rv usr/bin/* %{buildroot}%{_bindir}
 cp -rv usr/lib/* %{buildroot}%{_prefix}/lib
 cp -rv etc/* %{buildroot}%{_sysconfdir}
-mv %{buildroot}%{_sysconfdir}/skel %{buildroot}%{_sysconfdir}/skel.d
 mv %{buildroot}%{_datadir}/icons/hicolor/scalable/places/distributor-logo-steamdeck.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/places/steamdeck.svg
 cp %{SOURCE1} %{buildroot}%{_datadir}/icons/hicolor/scalable/places/steamdeck-le.svg
 # Remove unneeded files
@@ -47,6 +49,10 @@ rm %{buildroot}%{_datadir}/applications/org.mozilla.firefox.desktop
 rm %{buildroot}%{_sysconfdir}/profile.d/kde.sh
 rm %{buildroot}%{_sysconfdir}/xdg/kcm-about-distrorc
 rm %{buildroot}%{_sysconfdir}/X11/Xsession.d/50rotate-screen
+rm %{buildroot}%{_datadir}/plasma/look-and-feel/com.valve.vapor.desktop/contents/splash/images/deck_logo.svgz
+rm %{buildroot}%{_datadir}/plasma/look-and-feel/com.valve.vgui.desktop/contents/splash/images/deck_logo.svgz
+cp %{SOURCE2} %{buildroot}%{_datadir}/plasma/look-and-feel/com.valve.vapor.desktop/contents/splash/images/bazzite_logo.svgz
+cp %{SOURCE2} %{buildroot}%{_datadir}/plasma/look-and-feel/com.valve.vgui.desktop/contents/splash/images/bazzite_logo.svgz
 
 # Do post-installation
 %post
@@ -63,7 +69,7 @@ rm %{buildroot}%{_sysconfdir}/X11/Xsession.d/50rotate-screen
 %{_datadir}/color-schemes/Vapor.colors
 %{_datadir}/color-schemes/VGUI.colors
 %{_sysconfdir}/sddm.conf.d/steamdeck.conf
-%{_sysconfdir}/skel.d/Desktop/Return.desktop
+%{_sysconfdir}/skel/Desktop/Return.desktop
 %{_sysconfdir}/xdg/autostart/ibus.desktop
 %{_sysconfdir}/xdg/autostart/jupiter-plasma-bootstrap.desktop
 %{_sysconfdir}/xdg/gtk-2.0/gtkrc

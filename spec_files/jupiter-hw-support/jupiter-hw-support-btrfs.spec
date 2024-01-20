@@ -1,5 +1,5 @@
 %define packagename jupiter-hw-support
-%define packagever jupiter-3.5-20231115.1
+%define packagever jupiter-3.5-20240103.1
 %global _default_patch_fuzz 2
 
 Name:           %{packagename}-btrfs
@@ -10,15 +10,17 @@ License:        GPLv3
 URL:            https://github.com/ublue-os/bazzite
 
 Source:         https://gitlab.com/evlaV/%{packagename}/-/archive/%{packagever}/%{packagename}-%{packagever}.tar.gz
+Source2:        bazzite.png
 Patch0:         fedora.patch
 Patch1:         selinux.patch
-Patch2:	        https://gitlab.com/popsulfr/steamos-btrfs/-/raw/v1.2.6.20231104/files/usr/lib/hwsupport/steamos-automount.sh.patch.old.20231104103824.20231031.1000
-Patch3:         https://gitlab.com/popsulfr/steamos-btrfs/-/raw/v1.2.6.20231104/files/usr/lib/hwsupport/format-device.sh.patch.old.20230922091429.20230915.100
+Patch2:         btrfs-automount.patch
+Patch3:         btrfs-format.patch
 Patch4:         user.patch
 Patch5:         bazzite-btrfs.patch
 Patch6:         systemd-run.patch
 Patch7:         priv-write.patch
 Patch8:         biosupdate.patch
+Patch9:         gnome.patch
 
 Requires:       python3
 Requires:       python3-evdev
@@ -68,6 +70,7 @@ cp -rv usr/lib/udev %{buildroot}%{_prefix}/lib/udev
 cp -rv usr/bin/* %{buildroot}%{_bindir}
 cp -rv usr/lib/systemd/system/* %{buildroot}%{_unitdir}
 cp -rv etc/* %{buildroot}%{_sysconfdir}
+cp %{SOURCE2} %{buildroot}%{_datadir}/plymouth/themes/steamos/bazzite.png
 sed -i 's@steamos-cursor.png@usr/share/steamos/steamos-cursor.png@g' usr/share/steamos/steamos-cursor-config
 xcursorgen usr/share/steamos/steamos-cursor-config %{buildroot}%{_datadir}/icons/steam/cursors/default
 # Remove unneeded files

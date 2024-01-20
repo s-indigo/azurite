@@ -23,22 +23,32 @@ ublue_variants:
     ks: /kickstart/ublue-os-nvidia.ks
     flavors:
       - label: bazzite-nvidia
-        info: Bazzite (For Nvidia GPUs)
+        info: Bazzite (For NVIDIA GPUs)
   - label: ublue-os/bazzite-gnome-nvidia
     ks: /kickstart/ublue-os-nvidia.ks
     flavors:
       - label: bazzite-gnome-nvidia
-        info: Bazzite GNOME (For Nvidia GPUs)
+        info: Bazzite GNOME (For NVIDIA GPUs)
   - label: ublue-os/bazzite-asus
     ks: /kickstart/ublue-os.ks
     flavors:
       - label: bazzite-asus
         info: Bazzite (ASUS Laptop Edition)
+  - label: ublue-os/bazzite-asus-nvidia
+    ks: /kickstart/ublue-os.ks
+    flavors:
+      - label: bazzite-asus-nvidia
+        info: Bazzite (ASUS Laptop Edition for NVIDIA GPUs)
   - label: ublue-os/bazzite-gnome-asus
     ks: /kickstart/ublue-os.ks
     flavors:
       - label: bazzite-gnome-asus
         info: Bazzite GNOME (ASUS Laptop Edition)
+  - label: ublue-os/bazzite-gnome-asus-nvidia
+    ks: /kickstart/ublue-os.ks
+    flavors:
+      - label: bazzite-gnome-asus-nvidia
+        info: Bazzite GNOME (ASUS Laptop Edition for NVIDIA GPUs)
   - label: ublue-os/bazzite-ally
     ks: /kickstart/ublue-os.ks
     flavors:
@@ -78,14 +88,14 @@ ublue_variants:
     ks: /kickstart/ublue-os-nvidia.ks
     flavors:
       - label: bazzite-surface-nvidia
-        info: Bazzite (Surface Edition for Nvidia GPUs)
-  - label: ublue-os/bazzite-surface-gnome
+        info: Bazzite (Surface Edition for NVIDIA GPUs)
+  - label: ublue-os/bazzite-gnome-surface
     ks: /kickstart/ublue-os.ks
     flavors:
-      - label: bazzite-surface-gnome
+      - label: bazzite-gnome-surface
         info: Bazzite GNOME (Surface Edition)
-  - label: ublue-os/bazzite-surface-gnome-nvidia
+  - label: ublue-os/bazzite-gnome-surface-nvidia
     ks: /kickstart/ublue-os-nvidia.ks
     flavors:
-      - label: bazzite-surface-gnome-nvidia
-        info: Bazzite GNOME (Surface Edition for Nvidia GPUs)
+      - label: bazzite-gnome-surface-nvidia
+        info: Bazzite GNOME (Surface Edition for NVIDIA GPUs)

@@ -22,6 +22,16 @@ screens:
           default: true
           packages:
           - Set input group: sudo -A ujust add-user-to-input-group
+        Install Game Mode Startup Video:
+          description: Adds a Bazzite themed startup video for Steam's game mode.
+          default: true
+          packages:
+          - Install Video: ujust install-gamemode-video
+        Fix Steam Download Speed:
+          description: Adds a config file that fixes download speed under Steam for Linux.
+          default: true
+          packages:
+          - Fix Download Speed: ujust fix-steam-download-speed
         Sunshine:
           description: A self-hosted game stream host for Moonlight
           default: false
@@ -187,6 +197,7 @@ screens:
           - LibreOffice: org.libreoffice.LibreOffice
           - Obsidian: md.obsidian.Obsidian
           - OnlyOffice: org.onlyoffice.desktopeditors
+          - Planify: io.github.alainm23.planify
           - Slack: com.slack.Slack
           - Standard Notes: org.standardnotes.standardnotes
           - Tenacity: org.tenacityaudio.Tenacity
