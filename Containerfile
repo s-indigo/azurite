@@ -58,7 +58,8 @@ RUN wget https://copr.fedorainfracloud.org/coprs/sentry/kernel-fsync/repo/fedora
 RUN if [[ "${IMAGE_FLAVOR}" =~ "asus" ]]; then \
         wget https://copr.fedorainfracloud.org/coprs/lukenukem/asus-linux/repo/fedora-$(rpm -E %fedora)/lukenukem-asus-linux-fedora-$(rpm -E %fedora).repo -O /etc/yum.repos.d/_copr_lukenukem-asus-linux.repo && \
         rpm-ostree install \
-            asusctl && \
+            asusctl \
+            asusctl-rog-gui && \
         git clone https://gitlab.com/asus-linux/firmware.git --depth 1 /tmp/asus-firmware && \
         cp -rf /tmp/asus-firmware/* /usr/lib/firmware/ && \
         rm -rf /tmp/asus-firmware \
@@ -112,6 +113,11 @@ RUN rpm-ostree override replace \
     --experimental \
     --from repo=updates \
         glib2 \
+        || true && \
+    rpm-ostree override replace \
+    --experimental \
+    --from repo=updates \
+        gtk3 \
         || true && \
     rpm-ostree override replace \
     --experimental \
@@ -519,7 +525,8 @@ RUN sed -i 's@enabled=0@enabled=1@g' /etc/yum.repos.d/_copr_ublue-os-akmods.repo
 # Configure KDE & GNOME
 RUN if grep -q "kinoite" <<< "${BASE_IMAGE_NAME}"; then \
     rpm-ostree override remove \
-        steamdeck-kde-presets-desktop && \
+        steamdeck-kde-presets-desktop \
+        maliit-keyboard && \
     rpm-ostree install \
         steamdeck-kde-presets \
 ; else \
