@@ -26,6 +26,7 @@ get-simpledeckytdp:
       sudo tar -xzf /tmp/SimpleDeckyTDP.tar.gz -C $HOME/homebrew/plugins
       rm /tmp/SimpleDeckyTDP.tar.gz
       sudo sed -i 's/ENABLE_HARDWARE_CONTROL_ON_NON_DECK_HARDWARE=0/ENABLE_HARDWARE_CONTROL_ON_NON_DECK_HARDWARE=1/g' /etc/default/steam-hardware-control
+      echo 'Installed. Please reboot to apply needed changes.'
     else
       echo 'Please install Decky Loader by running ujust get-decky first.'
     fi
@@ -38,8 +39,39 @@ get-hhd-decky:
       curl -L $(curl -s https://api.github.com/repos/hhd-dev/hhd-decky/releases/latest | grep "browser_download_url" | cut -d '"' -f 4) -o /tmp/hhd-decky.tar.gz
       sudo tar -xzf /tmp/hhd-decky.tar.gz -C $HOME/homebrew/plugins
       rm /tmp/hhd-decky.tar.gz
+      echo 'Installed.'
     else
       echo 'Please install Decky Loader by running ujust get-decky first.'
+    fi
+
+# Install ROG Ally Theme for CSS Loader (https://github.com/semakusut/SBP-ROG-Ally)
+install-rog-ally-theme:
+    #!/usr/bin/bash
+    if [ -d "$HOME/homebrew/themes" ]; then
+        rm -rf "$HOME/homebrew/themes/SBP-ROG-Ally"
+        git clone https://github.com/semakusut/SBP-ROG-Ally.git --single-branch "$HOME/homebrew/themes/SBP-ROG-Ally"
+    else
+        echo 'Please install Decky Loader & CSS Loader first'
+    fi
+
+# Install Lenovo Legion Go for CSS Loader (https://github.com/frazse/SBP-Legion-Go-Theme)
+install-legion-go-theme:
+    #!/usr/bin/bash
+    if [ -d "$HOME/homebrew/themes" ]; then
+        rm -rf "$HOME/homebrew/themes/SBP-Legion-Go-Theme"
+        git clone https://github.com/frazse/SBP-Legion-Go-Theme.git --single-branch "$HOME/homebrew/themes/SBP-Legion-Go-Theme"
+    else
+        echo 'Please install Decky Loader & CSS Loader first'
+    fi
+
+# Install PS5-to-Xbox glyph theme for hhd & CSS Loader (https://github.com/frazse/PS5-to-Xbox-glyphs)
+install-hhd-xbox-glyph-theme:
+    #!/usr/bin/bash
+    if [ -d "$HOME/homebrew/themes" ]; then
+        rm -rf "$HOME/homebrew/themes/PS5-to-Xbox-glyphs"
+        git clone https://github.com/frazse/PS5-to-Xbox-glyphs.git --single-branch "$HOME/homebrew/themes/PS5-to-Xbox-glyphs"
+    else
+        echo 'Please install Decky Loader & CSS Loader first'
     fi
 
 # Install EmuDeck (https://www.emudeck.com/)
@@ -50,8 +82,10 @@ get-emudeck:
     echo 'Retrieving EmuDeck...'
     if [[ ${BASE_IMAGE_NAME} == 'silverblue' ]]; then
       wget https://www.emudeck.com/EmuDeck.desktop -O ~/.local/share/applications/EmuDeck.desktop
+      echo 'EmuDeck installer added to your application grid.'
     else
       wget https://www.emudeck.com/EmuDeck.desktop -O ~/Desktop/EmuDeck.desktop
+      echo 'EmuDeck installer added to your desktop.'
     fi
 
 # Use EXT4 for SD Cards, allows use of SteamOS formatted SD cards

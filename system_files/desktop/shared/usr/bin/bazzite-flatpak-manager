@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 # SCRIPT VERSION
-VER=16
+VER=19
 VER_FILE="/etc/bazzite/flatpak_manager_version"
 VER_RAN=$(cat $VER_FILE)
 IMAGE_INFO="/usr/share/ublue-os/image-info.json"
@@ -30,6 +30,7 @@ if grep -qz 'fedora' <<< $(flatpak remotes); then
 fi
 
 # Ensure Flathub is enabled
+flatpak remote-add --if-not-exists --system flathub /usr/etc/flatpak/remotes.d/flathub.flatpakrepo
 flatpak remote-modify --system --enable flathub
 
 # Installed flatpaks
@@ -59,6 +60,16 @@ flatpak override \
   --socket=cups \
   --socket=session-bus \
   org.libreoffice.LibreOffice
+
+# Allow MangoHUD config for Flatpaks
+flatpak override \
+  --filesystem=xdg-config/Mangohud:ro \
+  --filesystem=xdg-config/vkBasalt:ro
+
+# Fix permissions for XIV Launcher
+flatpak override \
+  --device=dri \
+  dev.goats.xivlauncher
 
 # Params needed for HW accelerated video on Nvidia (Ignoring hybrid systems)
 if [[ $IMAGE_FLAVOR =~ "nvidia" ]] && [ $(grep -o "\-display" <<< $(lshw -C display) | wc -l) -le 1 ] && grep -q "vendor: NVIDIA Corporation" <<< $(lshw -C display); then
